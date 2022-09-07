@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  terraform:
+    image: hashicorp/terraform:latest
+    volumes:
+      - .:/infra
+    working_dir: /infra
+    entrypoint: /infra/scripts/terraform_commands.sh
+    depends_on:
+      - localstack
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+
+  localstack:
+    container_name: localstack
+    environment:
+      - DEBUG=1
+      - HOSTNAME_EXTERNAL=localhost
+      - HOSTNAME=0.0.0.0
+      - TEST_AWS_ACCOUNT_ID=999999999999
+      - AWS_DEFAULT_REGION=us-west-2
+      - DEFAULT_REGION=us-west-2
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DATA_DIR=/tmp/localstack/data
+    image: localstack/localstack:1.0
+    ports:
+      - "4566:4566"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - localstack-data:/tmp/localstack
+
+volumes:
+  localstack-data:
+    name: localstack-data
