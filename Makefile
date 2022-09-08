@@ -26,4 +26,4 @@ send-message :
 	docker exec -it localstack awslocal sns publish --topic-arn arn:aws:sns:us-west-2:999999999999:data-bus --message "this is an example of text, length is 38"
 
 run-unittests : 
-	python -m unittest discover function '*_test.py'
+	source .env && python -m unittest discover function '*_test.py'

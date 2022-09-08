@@ -1,6 +1,5 @@
 import json
 import os
-import uuid
 
 import boto3
 
@@ -12,7 +11,7 @@ def lambda_handler(event, context):
     message = body["Message"]
     binary_message = str.encode(message)
     bucket_name = "test-bucket"
-    key = f"lambda_output/binary_message_{uuid.uuid4()}"
+    key = f"lambda_output/message.txt"
     localstack_hostname = os.environ["LOCALSTACK_HOSTNAME"]
     client = boto3.client(
         "s3", endpoint_url=f"http://{localstack_hostname}:4566", region_name="us-west-2"
