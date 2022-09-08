@@ -31,4 +31,5 @@ This test should pass or fail
 
 - `make docker-compose` to run containers with terraform and localstack images
 - `make send-message` to sns a message to the sns topic
-- `list-elements-in-bucket` to check that the lambda function created the txt file
+- `make list-elements-in-bucket` to check that the lambda function created the txt file
+- `make run-unittests` to run unit tests
